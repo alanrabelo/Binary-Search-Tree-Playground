@@ -40,7 +40,7 @@ public class GameScene: SKScene {
         self.configurePositions()
         self.setupLines()
         
-        var arrayOfPositions = [8, 3, 10, 1, 6, 14, 9]
+        var arrayOfPositions = [8, 3, 10, 1, 6, 9, 14]
         let radiusIntern = size.width * 0.075
 
         for (index,position) in positions.enumerated() {
@@ -240,7 +240,7 @@ extension GameScene {
                 
         let background = SKSpriteNode(imageNamed: "IMAGES/tree.png")
         background.name = "Tree"
-        background.size = CGSize(width: referenceSize * 1.15, height: referenceSize * 1.15)
+        background.size = CGSize(width: frame.width * 0.95, height: frame.height * 0.95)
         
         let center = CGPoint(x: frame.width * 0.5, y: frame.height * 0.4)
         

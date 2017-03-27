@@ -1,30 +1,12 @@
+
 import Foundation
 import SpriteKit
 
-func - (left: CGPoint, right: CGPoint) -> CGPoint {
-    return CGPoint(x: left.x - right.x, y: left.y - right.y)
-}
-
-func + (left: CGPoint, right: CGPoint) -> CGPoint {
-    return CGPoint(x: left.x + right.x, y: left.y + right.y)
-}
-
-func += ( left: inout CGPoint, right: CGPoint) {
-    left = left + right
-}
-
-
-
-
-let degree = CGFloat(M_PI_2) / 90
-
-var referenceSize: CGFloat!
-
-public class GameScene: SKScene {
+public class ArrayScene: SKScene {
     var selectedNode: SKNode?
     var shakeAction: SKAction?
     var positions : [Point] = []
-
+    
     
     var changedPositions : [Point] = []
     public var currentSize : CGSize!
@@ -32,17 +14,17 @@ public class GameScene: SKScene {
     override public init(size: CGSize) {
         
         referenceSize = min(size.width, size.height)
-
+        
         super.init(size: size)
         makeShakeAction()
         self.size = size
-
+        
         self.configurePositions()
         self.setupLines()
         
         var arrayOfPositions = [8, 3, 10, 1, 6, 14, 9]
         let radiusIntern = size.width * 0.075
-
+        
         for (index,position) in positions.enumerated() {
             let redCircle = Node(withValue: arrayOfPositions[index], andRadius: radiusIntern, andPosition: position)
             addChild(redCircle)
@@ -57,10 +39,10 @@ public class GameScene: SKScene {
             redCircle.lineWidth = 0.0
             redCircle.position = position.center
             redCircle.name = "NodeEmpty"
-
+            
             addChild(redCircle)
         }
-
+        
         setupBackGround()
     }
     
@@ -85,8 +67,8 @@ public class GameScene: SKScene {
         lines.append(line4)
         lines.append(line5)
         lines.append(line6)
-
-
+        
+        
         
         for line in lines {
             line.name = "justALine"
@@ -104,7 +86,7 @@ public class GameScene: SKScene {
         let valueForH3 = centerWidth * 0.4
         let valueForH41 = centerWidth * 0.2
         let valueForH42 = centerWidth * 0.6
-//        valueForH3 = 100
+        //        valueForH3 = 100
         
         positions = [Point.init(withPoint: CGPoint(x: centerWidth, y: centerHeight + valueForH3), andIndex : 0),
                      Point.init(withPoint: CGPoint(x: centerWidth - valueForH3, y: centerHeight ), andIndex : 1),
@@ -113,7 +95,7 @@ public class GameScene: SKScene {
                      Point.init(withPoint: CGPoint(x: centerWidth - valueForH41, y: centerHeight - valueForH3), andIndex : 4),
                      Point.init(withPoint: CGPoint(x: centerWidth + valueForH42, y: centerHeight - valueForH3), andIndex : 5),Point.init(withPoint: CGPoint(x: centerWidth + valueForH41, y: centerHeight - valueForH3), andIndex : 6)
         ]
-
+        
         
     }
     
@@ -154,11 +136,11 @@ public class GameScene: SKScene {
             
             if touchedNode.name == "Texto" {
                 selectedNode = touchedNode.parent!
-//                selectedNode?.run(shakeAction!, withKey: "shake")
+                //                selectedNode?.run(shakeAction!, withKey: "shake")
             } else if touchedNode.name == "Node" {
                 selectedNode = touchedNode
-
-//                selectedNode?.run(shakeAction!, withKey: "shake")
+                
+                //                selectedNode?.run(shakeAction!, withKey: "shake")
             } else if touchedNode.name == "Tree" {
                 touchedNode.randomShake()
                 touchedNode.addCrazyWideLeavesFalling()
@@ -176,14 +158,14 @@ public class GameScene: SKScene {
             if let node = selectedNode as? Node {
                 node.blink()
             }
-
+            
             for position in positions {
                 if touchedNode.position.distance(toPoint: position.center) == 0 {
                     let removed = position
                     changedPositions.append(removed)
                 }
             }
-
+            
         }
         
     }
@@ -200,7 +182,7 @@ public class GameScene: SKScene {
         
         if selectedNode != nil {
             guard let touch = touches.first else {return}
-
+            
             var finalLocation = touch.location(in: self.view)
             finalLocation.y = self.size.height - finalLocation.y
             for position in self.positions {
@@ -218,14 +200,14 @@ public class GameScene: SKScene {
                     }
                     selectedNode?.move(toPoint: nextPosition.center)
                     selectedNode?.alpha = 1
-//                    selectedNode?.removeAction(forKey: "shake")
+                    //                    selectedNode?.removeAction(forKey: "shake")
                     selectedNode = nil
                     break
                 }
             }
             
         } else {
-//            selectedNode?.removeAction(forKey: "shake")
+            //            selectedNode?.removeAction(forKey: "shake")
             selectedNode = nil
         }
         
@@ -235,9 +217,9 @@ public class GameScene: SKScene {
     
 }
 
-extension GameScene {
+extension ArrayScene {
     func setupBackGround() {
-                
+        
         let background = SKSpriteNode(imageNamed: "IMAGES/tree.png")
         background.name = "Tree"
         background.size = CGSize(width: referenceSize * 1.15, height: referenceSize * 1.15)
@@ -262,7 +244,7 @@ extension GameScene {
         text.position = CGPoint(x: size.width / 2, y: size.height * 0.90)
         text.name = "Texto"
         scene?.addChild(text)
-
+        
         
     }
 }
